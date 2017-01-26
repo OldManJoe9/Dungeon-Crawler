@@ -1,0 +1,52 @@
+Bronze Chest
+4
+Gold 25, 25
+Gold 50, 50
+COMMON, 50
+COMMON, 50
+COMMON, 50
+COMMON, 50
+UNCOMMON, 10
+UNCOMMON, 10
+RARE, 1
+;
+
+Desk
+3
+Gold 5, 10
+Gold 10, 25
+Gold 25, 50
+CommonPotion, 25
+UncommonPotion, 10
+Bronze Key, 10
+;
+
+Gold Chest
+4
+Gold 75, 25
+Gold 100, 50
+COMMON, 10
+COMMON, 10
+UNCOMMON, 20
+UNCOMMON, 20
+RARE, 40
+RARE, 40
+RARE, 40
+RARE, 40
+VERYRARE, 5
+ULTRARARE, 1
+;
+
+Silver Chest
+4
+Gold 50, 25
+Gold 75, 50
+COMMON, 15
+COMMON, 15
+UNCOMMON, 45
+UNCOMMON, 45
+UNCOMMON, 45
+UNCOMMON, 45
+RARE, 5
+VERYRARE, 1
+;

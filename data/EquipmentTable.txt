@@ -1,0 +1,32 @@
+CommonWeapon
+Bronze Chest
+floor
+;
+CommonArmor
+Bronze Chest
+floor
+;
+
+UncommonWeapon
+Silver Chest
+;
+UncommonArmor
+Silver Chest
+;
+
+RareWeapon
+Gold Chest
+;
+RareArmor
+Gold Chest
+;
+
+VeryRareWeapon
+;
+VeryRareArmor
+;
+
+UltraRareWeapon
+;
+UltraRareArmor
+;

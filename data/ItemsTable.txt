@@ -1,0 +1,16 @@
+CommonPotion
+;
+Strength Potion
+;
+
+UncommonPotion
+;
+
+RarePotion
+;
+
+VeryRarePotion
+;
+
+UltraRarePotion
+;

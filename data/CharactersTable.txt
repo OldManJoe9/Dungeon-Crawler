@@ -1,0 +1,4 @@
+Game Bug
+1
+Gold 5, 75
+;

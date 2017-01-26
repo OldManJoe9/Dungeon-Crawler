@@ -1,0 +1,4 @@
+Bronze Chest, BRONZE
+Desk, NONE, {CommonPotion; UncommonPotion; Bronze Key;}
+Gold Chest, GOLD
+Silver Chest, SILVER

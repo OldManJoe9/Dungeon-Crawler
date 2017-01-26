@@ -1,0 +1,20 @@
+COMMON
+CommonArmor, 1, {STRENGTH, 1;}, false, CommonArmor of Debugging, CommonArmor from game bugs!, 1, false, BODY, You can's defend against game bugs without a CommonArmor!!
+CommonWeapon, 1, {STRENGTH, 1;}, false, CommonWeapon of Debugging, CommonSlash through game bugs!, 1, true, WEAPON, You can't slash game bugs without a CommonWeapon!!
+
+UNCOMMON
+UncommonArmor, 2, {STRENGTH, 1; ENDURANCE, 1;}, false, UncommonArmor of Debugging, UncommonArmor from game bugs!, 1, false, BODY, You can't defend against game bugs without a UncommonArmor!!
+UncommonWeapon, 2, {}, false, UncommonWeapon of Debugging, UncommonSlash through game bugs!, 1, true, WEAPON, You can's slash game bugs without a UncommonWeapon!!
+
+RARE
+RareArmor, 3, {}, false, RareArmor of Debugging, RareArmor from game bugs!, 1, false, BODY, You can't defend against game bugs without a RareArmor!!
+RareWeapon, 3, {}, false, RareWeapon of Debugging, RareSlash through game bugs!, 1, true, WEAPON, You can's slash game bugs without a RareWeapon!!
+
+VERYRARE
+VeryRareArmor, 4, {}, false, VeryRareArmor of Debugging, VeryRareArmor from game bugs!, 1, false, BODY, You can't defend against game bugs without a VeryRareArmor!!
+VeryRareWeapon, 4, {}, false, VeryRareWeapon of Debugging, VeryRareSlash through game bugs!, 1, true, WEAPON, You can's slash game bugs without a VeryRareWeapon!!
+
+ULTRARARE
+UltraRareArmor, 5, {}, false, UltraRareArmor of Debugging, UltraRareArmor from game bugs!, 1, false, BODY, You can't defend against game bugs without a UltraRareArmor!!
+UltraRareWeapon, 5, {}, false, UltraRareWeapon of Debugging, UltraRareSlash through game bugs!, 1, true, WEAPON, You can's slash game bugs without a UltraRareWeapon!!
+

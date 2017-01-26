@@ -1,0 +1,4 @@
+Potion, {HEALTH, 10;}, 1, true, none
+Strength Potion, {Strength, 5;}, 10, false, none
+
+

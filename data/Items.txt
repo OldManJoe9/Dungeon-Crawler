@@ -1,0 +1,16 @@
+COMMON
+CommonPotion, {Potion;}, 1, false, CommonPotion for finding game bugs., You are now more likely to find any CommonBugs. If they exist...
+Strength Potion, {Strength Potion;}, 2, false, Potion to give temporary strength to the drinker, You have grown stronger
+
+UNCOMMON
+UncommonPotion, {}, 3, false, UncommonPotion for finding game bugs., You are now more likely to find any UncommonBugs. If they exist...
+
+RARE
+RarePotion, {}, 4, false, RarePotion for finding game bugs., You are now more likely to find any RareBugs. If they exist...
+
+VERYRARE
+VeryRarePotion, {}, 5, false, VeryRarePotion for finding game bugs., You are now more likely to find any VeryRareBugs. If they exist...
+
+ULTRARARE
+UltraRarePotion, {}, 6, false, UltraRarePotion for finding game bugs., You are now more likely to find any UltraRareBugs. If they exist...
+
