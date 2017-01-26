@@ -9,7 +9,7 @@ public class DungeonCrawler
 	private static Console console;
 	private static MapSquare[][] map = new MapSquare[1][1];
 	private static int x = 0, y = 0;
-	private static String version = "Version: 0.0.9, Date: March 27, 2016";
+	private static String version = "Version: 0.0.10, Date: January 26, 2017";
 	private static Character playerCharacter = new Character("playerCharacter",5,5,5,5,5,5,100,10,0,1);
 	
 	public static final SpecialAttributeGen specialAttributeGen = new SpecialAttributeGen();
