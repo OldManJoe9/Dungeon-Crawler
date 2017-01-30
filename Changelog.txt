@@ -1,0 +1,31 @@
+v0.0.6
+-After move_"Move where?" you can give a direction to move.
+-added descriptions to items, as well as text on use, equip, and unequip.
+
+v0.0.7
+-Added 2nd try for every command that asks for something, same as move.
+-Item generation at different map squares is done by text files instead of hard coded.
+
+v0.0.8
+-Added classifications for items and equipment
+-Added containers, objects found in rooms to be opened and searched
+-Added keys and locks for containers
+-Ability to pickup all of a certain item, or drop all of a certain item
+-Improved Code
+-Added Combat
+-Added Merchants
+-Added simple level system
+-fixed spelling errors
+-Improved Merchant
+-Improved Combat
+
+v0.0.9
+-No reviving creatures
+-No longer enter combat against dead creatures
+-Merchants maintain inventory
+-Merchants will buy items
+-Added "Are you sure?" prompt to quit/exit command
+-Changed experience function for levels
+-Added "Are you sure?" prompt when selling priceless items
+
+v0.0.10

@@ -1,0 +1,14 @@
+Automatic room descriptions upon entrance
+Better combat system
+Enemy creatures
+Legitimate items
+Doors
+Better Map generation
+Level system
+Item find tables
+Container find tables
+Character find tables
+Map zones
+Saving and loading
+Better Trade system
+Condensed Merchant Menu
