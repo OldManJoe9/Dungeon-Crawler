@@ -4,16 +4,21 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.Predicate;
 
-public class MapSquare implements ItemCarrier
+public class Room implements ItemCarrier
 {
 	private ArrayList<Item> items = new ArrayList<Item>();
 	private ArrayList<Container> containers = new ArrayList<Container>();
-	//private Door[] doors;
-	private int[] coords = new int[2];
+	private Room[] doors;
+	private int x, y;
 	private Random randomGenerator = new Random();
 	private Character creature = null;
 		
-	public MapSquare() {generate();}
+	public Room(int x, int y)
+	{
+		this.x = x;
+		this.y = y;
+		generate();
+	}
 	
 	private void generate()
 	{
@@ -41,17 +46,17 @@ public class MapSquare implements ItemCarrier
 		//doors = ds;
 	}
 	
-	public MapSquare getAdjacentMapSquare(MapSquare[][] map, Direction d)
+	public Room getAdjacentRoom(Direction d)
 	{
 		switch(d){
-		case NORTH:
-		case UP:  if(coords[1]-1 != -1) return map[coords[0]][coords[1]-1]; else break;
-		case EAST:
-		case RIGHT: if(coords[0]+1 != map.length) return map[coords[0]+1][coords[1]]; else break;
-		case SOUTH:
-		case DOWN: if(coords[1]+1 != map[0].length) return map[coords[0]][coords[1]+1]; else break;
-		case WEST:
-		case LEFT: if(coords[0]-1 != -1) return map[coords[0]-1][coords[1]]; else break;
+		case NORTH: case UP: 
+			return doors[0];
+		case EAST: case RIGHT:
+			return doors[1];
+		case SOUTH: case DOWN:
+			return doors[2];
+		case WEST: case LEFT:
+			return doors[3];
 		}
 		
 		return null;
@@ -104,7 +109,37 @@ public class MapSquare implements ItemCarrier
 	
 	public void unlock(Container c, Key k) {c.unlock(k);}
 	
-	public int[] getCoordinates() {return coords;}
-	public void addX() {coords[0]++;}
-	public void addY() {coords[1]++;}
+	public int getX() {return x;}
+	public int getY() {return y;}
+	public void addX() {x++;}
+	public void addY() {y++;}
+	
+	public void onRemoval()
+	{
+		if(getAdjacentRoom(Direction.NORTH) != null)
+			getAdjacentRoom(Direction.NORTH).doors[2] = null;
+		
+		if(getAdjacentRoom(Direction.EAST) != null)
+			getAdjacentRoom(Direction.EAST).doors[3] = null;
+		
+		if(getAdjacentRoom(Direction.SOUTH) != null)
+			getAdjacentRoom(Direction.SOUTH).doors[0] = null;
+		
+		if(getAdjacentRoom(Direction.WEST) != null)
+			getAdjacentRoom(Direction.WEST).doors[1] = null;
+	}
+
+	public void addConnection(Room adjacentRoom, Direction dir)
+	{
+		switch(dir){
+		case NORTH: case UP: 
+			doors[0] = adjacentRoom;
+		case EAST: case RIGHT:
+			doors[1] = adjacentRoom;
+		case SOUTH: case DOWN:
+			doors[2] = adjacentRoom;
+		case WEST: case LEFT:
+			doors[3] = adjacentRoom;
+		}
+	}
 }

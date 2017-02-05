@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 public class DungeonCrawler 
 {
 	private static Console console;
-	private static MapSquare[][] map = new MapSquare[1][1];
-	private static int x = 0, y = 0;
+	private static Map map = new Map();
+	private static Room currentRoom;
 	private static String version = "Version: 0.0.10, Date: January 26, 2017";
 	private static Character playerCharacter = new Character("playerCharacter",5,5,5,5,5,5,100,10,0,1);
 	
@@ -31,9 +31,8 @@ public class DungeonCrawler
             System.exit(1);
         }
 		
-		map[0][0] = new MapSquare();
-		for(int a=0;a<4;a++)
-			checkMap();
+		map.spawnRoom(0, 0);
+		currentRoom = map.getRoom(0, 0);
 		
 		console.printf("Welcome to this Text-Based Dungeon Crawler.%n"
 				+ "%s%n"
@@ -52,7 +51,7 @@ public class DungeonCrawler
 			}
 		}
 	}
-	
+
 	private static Command findCommand(String s)
 	{
 		int space = s.indexOf(' ');
@@ -64,46 +63,6 @@ public class DungeonCrawler
 		int space = s.indexOf(' ');
 		if(space == -1) return "";
 		return s.substring(space + 1);
-	}
-	
-	private static void checkMap()
-	{
-		if(x == 0) addSide(Direction.LEFT);
-		else if(x == map.length-1) addSide(Direction.RIGHT);
-		else if(y == 0) addSide(Direction.UP);
-		else if(y == map[0].length-1) addSide(Direction.DOWN);
-	}
-	private static void addSide(Direction d)
-	{
-		int width = map.length;
-		int height = map[0].length;
-		int left=0;int up=0;
-		MapSquare[][] newMap = null;
-		
-		switch(d){
-		case LEFT: left=-1; x++;
-		case RIGHT:
-			newMap = new MapSquare[width+1][height];
-			for(int a=0;a<height;a++) newMap[width*(left+1)][a] = new MapSquare();
-			break;
-		case UP: up=-1; y++;
-		case DOWN: 
-			newMap = new MapSquare[width][height+1]; 
-			for(int b=0;b<width;b++) newMap[b][height*(up+1)] = new MapSquare();
-			break;
-		default: break;
-		}
-		
-		for(int e=0;e<width;e++) 
-			for(int f=0;f<height;f++)
-			{
-				newMap[e-left][f-up] = map[e][f];
-				
-				if(up == -1) map[e][f].addY();
-				else if(left == -1) map[e][f].addX();
-			}
-		
-		map=newMap;
 	}
 	
 	private static void useCommand(Command c, String param)
@@ -147,18 +106,27 @@ public class DungeonCrawler
 			return;
 		}
 		
-		switch(dir){
-		case LEFT: x--;break;
-		case RIGHT: x++;break;
-		case UP: y--;break;
-		case DOWN: y++;break;
-		case WEST: x--;break;
-		case EAST: x++;break;
-		case NORTH: y--;break;
-		case SOUTH: y++;break;
-		}
-		checkMap();
+		if(currentRoom.getAdjacentRoom(dir) == null) spawnRoom(dir);
+		currentRoom = currentRoom.getAdjacentRoom(dir);
+				
 		cycle();
+	}
+	private static void spawnRoom(Direction dir)
+	{
+		int x = currentRoom.getX(), y = currentRoom.getY();
+		
+		switch(dir){
+		case NORTH: case UP:
+			y--;
+		case EAST: case RIGHT:
+			x++;
+		case SOUTH: case DOWN:
+			y++;
+		case WEST: case LEFT:
+			x--;
+		}
+		
+		map.spawnRoom(x, y);
 	}
 	
 	private static void show(String param)
@@ -307,7 +275,7 @@ public class DungeonCrawler
 			return;
 		}
 
-		ArrayList<Unlockable> unlockables = map[x][y].getUnlockables();
+		ArrayList<Unlockable> unlockables = currentRoom.getUnlockables();
 			
 		if(c.equalsIgnoreCase("all")) 
 			if(unlockables.isEmpty()) console.printf("There is nothing to unlock...%n%n");
@@ -353,14 +321,13 @@ public class DungeonCrawler
 	
 	private static void search(String param) 
 	{
-		MapSquare mySpot = map[x][y];
 		ArrayList<Item> items = null;
 		boolean found = false;
 		
-		if(param.isEmpty()) mySpot.search(console);
+		if(param.isEmpty()) currentRoom.search(console);
 		else
 		{
-			for(Unlockable con : mySpot.getUnlockables())
+			for(Unlockable con : currentRoom.getUnlockables())
 				if(con.getClass() == Container.class)
 				{
 					String con1 = con.getName() + ((Container)con).getIdentifier();
@@ -392,13 +359,11 @@ public class DungeonCrawler
 			return;
 		}
 		
-		MapSquare mySpot = map[x][y];
-		
 		if(i.equalsIgnoreCase("all"))
 		{
-			ArrayList<Item> items = mySpot.getAllItems();
+			ArrayList<Item> items = currentRoom.getAllItems();
 			if(items.isEmpty()) console.printf("There is nothing to pick up...%n%n");
-			else console.printf(Action.transferAll(mySpot, playerCharacter, items, "Picked up: "));
+			else console.printf(Action.transferAll(currentRoom, playerCharacter, items, "Picked up: "));
 		}
 		else
 		{
@@ -410,7 +375,7 @@ public class DungeonCrawler
 				Item item = null;
 				ArrayList<Item> items = null;
 				
-				for(Unlockable u : mySpot.getUnlockables())
+				for(Unlockable u : currentRoom.getUnlockables())
 					if(u.getClass() == Container.class)
 					{
 						String con1 = u.getName() + ((Container)u).getIdentifier();
@@ -445,17 +410,17 @@ public class DungeonCrawler
 			else if(i.contains("all ")) 
 			{
 				String i2 = i.substring(i.indexOf("all ") + 4);
-				ArrayList<Item> items2 = mySpot.getAllItems(item -> item.getName().equalsIgnoreCase(i2));
+				ArrayList<Item> items2 = currentRoom.getAllItems(item -> item.getName().equalsIgnoreCase(i2));
 
 				if(items2.isEmpty()) console.printf("Could not pick up all: %s%n%n", i2);
-				else console.printf(Action.transferAll(mySpot, playerCharacter, items2, "Picked up: "));
+				else console.printf(Action.transferAll(currentRoom, playerCharacter, items2, "Picked up: "));
 			}
 			else
 			{
-				Item it = mySpot.getItem(item -> item.getName().equalsIgnoreCase(i));
+				Item it = currentRoom.getItem(item -> item.getName().equalsIgnoreCase(i));
 				
 				if(it == null) console.printf("Could not pick up: %s%n%n", i);
-				else console.printf(Action.transfer(mySpot, playerCharacter, it, "Picked up: ") + "%n");
+				else console.printf(Action.transfer(currentRoom, playerCharacter, it, "Picked up: ") + "%n");
 			}
 		}
 	}
@@ -468,7 +433,6 @@ public class DungeonCrawler
 			return;
 		}
 		
-		MapSquare mySpot = map[x][y];
 		Item toDrop = null;
 		
 		if(i.contains("all")) 
@@ -478,7 +442,7 @@ public class DungeonCrawler
 			
 			while((toDrop = playerCharacter.getItem(s -> s.getName().equalsIgnoreCase(i2))) != null)
 			{
-				mySpot.giveItem(toDrop);
+				currentRoom.giveItem(toDrop);
 				playerCharacter.removeItem(toDrop);
 				console.printf("Dropped: %s%n", toDrop.getName());
 				called = true;
@@ -494,7 +458,7 @@ public class DungeonCrawler
 			if(toDrop == null) console.printf("Could not drop: %s%n%n", i);
 			else 
 			{
-				mySpot.giveItem(toDrop);
+				currentRoom.giveItem(toDrop);
 				playerCharacter.removeItem(toDrop);
 				console.printf("Dropped: %s%n%n", toDrop.getName());
 			}
@@ -589,11 +553,11 @@ public class DungeonCrawler
 	
 	private static void cycle()
 	{
-		Character creature = map[x][y].getCreature();
+		Character creature = currentRoom.getCreature();
 		
 		playerCharacter.cycle();
 		if(creature != null)
-			if(!creature.getName().equals("Merchant")) Combat.start(playerCharacter, map[x][y].getCreature(), console);
+			if(!creature.getName().equals("Merchant")) Combat.start(playerCharacter, creature, console);
 			else Merchant.trade(itemGen, console, playerCharacter, creature);
 	}
 	
