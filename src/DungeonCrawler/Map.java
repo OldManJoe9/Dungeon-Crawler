@@ -3,6 +3,8 @@ package DungeonCrawler;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import DungeonCrawler.Door.IncorrectDirectionException;
+
 public class Map
 {
 	private ArrayList<Room> allRooms = new ArrayList<Room>();
@@ -24,7 +26,8 @@ public class Map
 		
 		allRooms.sort(c);
 		
-		connectRoom(x, y);
+		Direction[] ds = {Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
+		for(Direction d : ds) connectRoom(x, y, d);
 	}
 	
 	public void removeRoom(int x, int y)
@@ -34,34 +37,36 @@ public class Map
 		allRooms.remove(remove);
 	}
 	
-	private void connectRoom(int x, int y)
+	private void connectRoom(int x, int y, Direction dir)
 	{
-		Room currentRoom = getRoom(x,y), adjacentRoom = getRoom(x, y-1);
-		if(adjacentRoom != null)
-		{
-			adjacentRoom.addConnection(currentRoom, Direction.SOUTH);
-			currentRoom.addConnection(adjacentRoom, Direction.NORTH);
+		Room currentRoom = getRoom(x,y);
+		
+		switch(dir) {
+		case NORTH: case UP:
+			y++; break;
+		case SOUTH: case DOWN:
+			y--; break;
+		case WEST: case LEFT:
+			x++; break;
+		case EAST: case RIGHT:
+			x--; break;
 		}
 		
-		adjacentRoom = getRoom(x, y+1);
+		Room adjacentRoom = getRoom(x, y);
 		if(adjacentRoom != null)
 		{
-			adjacentRoom.addConnection(currentRoom, Direction.NORTH);
-			currentRoom.addConnection(adjacentRoom, Direction.SOUTH);
-		}
-		
-		adjacentRoom = getRoom(x-1, y);
-		if(adjacentRoom != null)
-		{
-			adjacentRoom.addConnection(currentRoom, Direction.EAST);
-			currentRoom.addConnection(adjacentRoom, Direction.WEST);
-		}
-		
-		adjacentRoom = getRoom(x+1, y);
-		if(adjacentRoom != null)
-		{
-			adjacentRoom.addConnection(currentRoom, Direction.WEST);
-			currentRoom.addConnection(adjacentRoom, Direction.EAST);
+			try
+			{
+				adjacentRoom.addConnection(dir, currentRoom);
+				Door adjacentDoor = adjacentRoom.getDoor(dir);
+				adjacentDoor.setRoom(dir, currentRoom);
+				currentRoom.addConnection(Direction.getOpposite(dir), adjacentDoor);
+			}
+			catch (IncorrectDirectionException e)
+			{
+				e.printStackTrace();
+				System.exit(-1);
+			}
 		}
 	}
 }

@@ -82,6 +82,9 @@ public class DungeonCrawler
 		case DROP: case DISCARD: drop(param); break;
 		case HELP: help(param); break;
 		case QUIT: case EXIT: quit(); break;
+		case DEBUG:
+			console.printf("Command not found%n%n");
+			//debug(); break;
 		}
 	}
 	
@@ -106,9 +109,15 @@ public class DungeonCrawler
 			return;
 		}
 		
+		if(currentRoom.getDoor(dir).getLockLevel().getLevel() > Key.LockLevel.NONE.getLevel())
+		{
+			console.printf("That door is locked.%n%n");
+			return;
+		}
+		
 		if(currentRoom.getAdjacentRoom(dir) == null) spawnRoom(dir);
 		currentRoom = currentRoom.getAdjacentRoom(dir);
-				
+		
 		cycle();
 	}
 	private static void spawnRoom(Direction dir)
@@ -117,13 +126,13 @@ public class DungeonCrawler
 		
 		switch(dir){
 		case NORTH: case UP:
-			y--;
+			y--; break;
 		case EAST: case RIGHT:
-			x++;
+			x++; break;
 		case SOUTH: case DOWN:
-			y++;
+			y++; break;
 		case WEST: case LEFT:
-			x--;
+			x--; break;
 		}
 		
 		map.spawnRoom(x, y);
@@ -282,7 +291,7 @@ public class DungeonCrawler
 			else console.printf(Action.unlockAll(unlockables, playerCharacter.getAllKeysFromInventory(), playerCharacter));
 		else
 		{
-			if(c.contains(" all ")) 
+			if(c.contains("all ")) 
 			{
 				String c2 = c.substring(c.indexOf(" ") + 1);
 				ArrayList<Unlockable> unlockables2 = new ArrayList<Unlockable>();
@@ -301,6 +310,15 @@ public class DungeonCrawler
 					if(u.getClass() == Container.class)
 					{
 						String con = u.getName() + ((Container)u).getIdentifier();
+						if(con.equalsIgnoreCase(c)) 
+						{
+							console.printf(Action.unlock(u, playerCharacter.getKeyFromInventory(u.getLockLevel()), playerCharacter) + "%n");
+							unlocked = true; break;
+						}
+					}
+					else if(u.getClass() == Door.class)
+					{
+						String con = Direction.getOpposite(((Door)u).getMySide(currentRoom)) + " Door";
 						if(con.equalsIgnoreCase(c)) 
 						{
 							console.printf(Action.unlock(u, playerCharacter.getKeyFromInventory(u.getLockLevel()), playerCharacter) + "%n");
@@ -470,7 +488,7 @@ public class DungeonCrawler
 		if(c.isEmpty()) 
 		{
 			console.printf("%n");
-			for(Command c2 : Command.values()) console.printf(c2.toString() + "%n");
+			for(Command c2 : Command.values()) if(c2 != Command.DEBUG) console.printf(c2.toString() + "%n");
 			
 			console.printf("%n");
 			return;
@@ -546,10 +564,48 @@ public class DungeonCrawler
 			console.printf("Syntax: quit/exit%n"
 					+ "Ends the game, no paramaters are needed. I suggest saving before you quit, just saying...%n%n");
 			break;
+		case DEBUG:
+			console.printf("Command not found%n");
+			break;
 		}
 	}
 	
 	private static void quit() {if(console.readLine("Are you sure you wish to quit? [y/n] ").equalsIgnoreCase("Y")) System.exit(0);}
+	
+	private static void debug()
+	{
+		console.printf("%s%n", currentRoom.getDoor(Direction.NORTH));
+		try
+		{
+			console.printf("%s%n", currentRoom.getAdjacentRoom(Direction.NORTH).getDoor(Direction.SOUTH));
+			console.printf("%s%n%n", currentRoom.getDoor(Direction.NORTH) == currentRoom.getAdjacentRoom(Direction.NORTH).getDoor(Direction.SOUTH));
+		}
+		catch(NullPointerException e) {console.printf("%n");}
+		
+		console.printf("%s%n", currentRoom.getDoor(Direction.EAST));
+		try
+		{
+			console.printf("%s%n", currentRoom.getAdjacentRoom(Direction.EAST).getDoor(Direction.WEST));
+			console.printf("%s%n%n", currentRoom.getDoor(Direction.EAST) == currentRoom.getAdjacentRoom(Direction.EAST).getDoor(Direction.WEST));
+		}
+		catch(NullPointerException e) {console.printf("%n");}
+		
+		console.printf("%s%n", currentRoom.getDoor(Direction.SOUTH));
+		try
+		{
+			console.printf("%s%n", currentRoom.getAdjacentRoom(Direction.SOUTH).getDoor(Direction.NORTH));
+			console.printf("%s%n%n", currentRoom.getDoor(Direction.SOUTH) == currentRoom.getAdjacentRoom(Direction.SOUTH).getDoor(Direction.NORTH));
+		}
+		catch(NullPointerException e) {console.printf("%n");}
+		
+		console.printf("%s%n", currentRoom.getDoor(Direction.WEST));
+		try
+		{
+			console.printf("%s%n", currentRoom.getAdjacentRoom(Direction.WEST).getDoor(Direction.EAST));
+			console.printf("%s%n%n", currentRoom.getDoor(Direction.WEST) == currentRoom.getAdjacentRoom(Direction.WEST).getDoor(Direction.EAST));
+		}
+		catch(NullPointerException e) {console.printf("%n");}
+	}
 	
 	private static void cycle()
 	{
@@ -574,7 +630,7 @@ public class DungeonCrawler
 	{
 		MOVE("MOVE"), SHOW("SHOW"), DESCRIBE("DESCRIBE"), WHATIS("WHATIS"), EQUIP("EQUIP"), UNEQUIP("UNEQUIP"),
 		USE("USE"), UNLOCK("UNLOCK"), SEARCH("SEARCH"), PICKUP("PICKUP"), TAKE("TAKE"), DROP("DROP"), DISCARD("DISCARD"),
-		HELP("HELP"), QUIT("QUIT"), EXIT("EXIT");
+		HELP("HELP"), QUIT("QUIT"), EXIT("EXIT"), DEBUG("DEBUG");
 		
 		private char[] commandString;
 		private Command(String sc) {commandString=sc.toCharArray();}
