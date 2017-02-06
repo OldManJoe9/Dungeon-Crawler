@@ -30,3 +30,4 @@ v0.0.9
 
 v0.0.10
 -Improved Map System, each room now knows it's neighbors rather than a two dimensional array of rooms
+-Added unlockable doors to each room. Now you have to collect keys in order to move through the dungeon.
