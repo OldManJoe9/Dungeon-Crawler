@@ -9,7 +9,7 @@ public class DungeonCrawler
 	private static Console console;
 	private static Map map = new Map();
 	private static Room currentRoom;
-	private static String version = "Version: 0.0.10, Date: January 26, 2017";
+	private static String version = "Version: 0.0.10, Date: February 6, 2017";
 	private static Character playerCharacter = new Character("playerCharacter",5,5,5,5,5,5,100,10,0,1);
 	
 	public static final SpecialAttributeGen specialAttributeGen = new SpecialAttributeGen();
@@ -572,6 +572,7 @@ public class DungeonCrawler
 	
 	private static void quit() {if(console.readLine("Are you sure you wish to quit? [y/n] ").equalsIgnoreCase("Y")) System.exit(0);}
 	
+	@SuppressWarnings("unused")
 	private static void debug()
 	{
 		console.printf("%s%n", currentRoom.getDoor(Direction.NORTH));
