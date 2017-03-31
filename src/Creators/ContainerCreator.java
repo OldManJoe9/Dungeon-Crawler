@@ -10,18 +10,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import DungeonCrawler.ContainerGen;
-import DungeonCrawler.EquipmentGen;
-import DungeonCrawler.ItemGen;
-import DungeonCrawler.SpecialAttributeGen;
 
-public class ContainerCreator extends ContainerGen
+public class ContainerCreator
 {
 	private static Console console;
 	private static Path file = Paths.get("../data/Containers.txt");
 	private static ArrayList<String> containers = new ArrayList<String>(); 
-	
-	public ContainerCreator() {super(new ItemGen(new SpecialAttributeGen(), new EquipmentGen()));}
 	
 	public static void main(String[] args) 
 	{

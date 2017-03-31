@@ -10,16 +10,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import DungeonCrawler.AbilityGen;
-import DungeonCrawler.SpecialAttributeGen;
 
-public class AbilityCreator extends AbilityGen
+public class AbilityCreator
 {
 	private static Console console;
 	private static Path file = Paths.get("../data/Abilities.txt");
 	private static ArrayList<String> abilities = new ArrayList<String>(); 
-	
-	public AbilityCreator() {super(new SpecialAttributeGen());}
 	
 	public static void main(String[] args) 
 	{

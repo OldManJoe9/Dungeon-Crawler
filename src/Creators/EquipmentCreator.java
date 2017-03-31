@@ -10,11 +10,10 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import DungeonCrawler.EquipmentGen;
 import DungeonCrawler.ClassifiedArrayList;
 import DungeonCrawler.ClassifiedArrayList.Classification;
 
-public class EquipmentCreator extends EquipmentGen
+public class EquipmentCreator
 {
 	private static Console console;
 	private static Path file = Paths.get("../data/Equipment.txt");

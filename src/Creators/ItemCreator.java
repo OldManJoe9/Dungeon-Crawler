@@ -10,23 +10,15 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import DungeonCrawler.ItemGen;
-import DungeonCrawler.SpecialAttributeGen;
-import DungeonCrawler.EquipmentGen;
 import DungeonCrawler.ClassifiedArrayList;
 import DungeonCrawler.ClassifiedArrayList.Classification;
 
-public class ItemCreator extends ItemGen
+public class ItemCreator
 {
 	private static Console console;
 	private static Path file = Paths.get("../data/Items.txt");
 	@SuppressWarnings("unchecked")
 	private static ClassifiedArrayList<String>[] classifiedArrayLists = new ClassifiedArrayList[5];
-	
-	public ItemCreator()
-	{
-		super(new SpecialAttributeGen(), new EquipmentGen());
-	}
 	
 	public static void main(String[] args) 
 	{

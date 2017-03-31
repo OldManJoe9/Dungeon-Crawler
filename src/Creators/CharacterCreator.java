@@ -10,16 +10,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import DungeonCrawler.CharacterGen;
-import DungeonCrawler.EquipmentGen;
 
-public class CharacterCreator extends CharacterGen
+public class CharacterCreator
 {
 	private static Console console;
 	private static Path file = Paths.get("../data/Characters.txt");
 	private static ArrayList<String> characters = new ArrayList<String>(); 
-	
-	public CharacterCreator() {super(new EquipmentGen());}
 	
 	public static void main(String[] args) 
 	{
