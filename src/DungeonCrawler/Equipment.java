@@ -18,13 +18,13 @@ public class Equipment extends Item
 	public void use(Character c) {}
 	public void equip(Character c) 
 	{
-		for(Attribute a : attributes) c.addAttribute(a);
+		for(Attribute a : attributes) c.changeAttribute(a, true);
 		
 		c.removeItem(this);
 	}
 	public void unequip(Character c) 
 	{
-		for(Attribute a : attributes) c.subtractAttribute(a);
+		for(Attribute a : attributes) c.changeAttribute(a, false);
 	
 		c.giveItem(this);
 	}

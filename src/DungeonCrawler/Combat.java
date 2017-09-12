@@ -48,7 +48,7 @@ public class Combat
 			console.printf("You were defeated by the %s.%n%n", opponent.getName());
 		else if(opponent.getAttribute(Attribute.AttributeEnum.HEALTH).getValue() <= 0)
 		{
-			player.addAttribute(opponent.getAttribute(Attribute.AttributeEnum.EXPERIENCE));
+			player.changeAttribute(opponent.getAttribute(Attribute.AttributeEnum.EXPERIENCE), true);
 			LevelSystem.checkLevel(player);
 			console.printf("You defeated the %s.%n%n", opponent.getName());
 		}
@@ -118,7 +118,7 @@ public class Combat
 		
 		if(randomGenerator.nextInt(attackerDexLuck + 5) > randomGenerator.nextInt(targetDexLuck + 5))
 		{
-			target.subtractAttribute(Attribute.AttributeEnum.HEALTH, attack);
+			target.changeAttribute(Attribute.AttributeEnum.HEALTH, attack, false);
 			if(isPlayerTurn) console.printf("You hit the %s.%n", target.getName());
 			else console.printf("You were struck by %s.%n", attacker.getName());
 		}

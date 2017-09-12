@@ -27,7 +27,7 @@ public class LevelSystem
 	private static void checkLevel(Character p, int e, int l)
 	{
 		if(l < MAX_LEVEL && e >= levels[l + 1])
-			p.addAttribute(AttributeEnum.LEVEL, 1);
+			p.changeAttribute(AttributeEnum.LEVEL, 1, true);
 		else return;
 		
 		checkLevel(p, e, l);

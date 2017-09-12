@@ -2,6 +2,7 @@ package DungeonCrawler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.function.Predicate;
 
@@ -29,7 +30,7 @@ public class Character implements ItemCarrier
 	private String name;
 	//strength, dexterity, wisdom, intelligence, endurance, luck, health, maxHealth, mana, maxMana, experience, level
 	public static final Attribute.AttributeEnum[] ATTRIBUTES = Attribute.AttributeEnum.values(); 
-	private Attribute[] attributeList = new Attribute[ATTRIBUTES.length];
+	private HashMap<Attribute.AttributeEnum, Attribute> attributeList = new HashMap<>();
 	
 	private ArrayList<Item> inventory = new ArrayList<Item>();
 	private ArrayList<Ability> abilities = new ArrayList<Ability>();
@@ -41,8 +42,8 @@ public class Character implements ItemCarrier
 	{
 		name = copy.getName();
 		
-		for(int a=0;a<attributeList.length;a++)
-			attributeList[a] = new Attribute(ATTRIBUTES[a], copy.getAllAttributes()[a].getValue());
+		for(int a=0;a<ATTRIBUTES.length;a++)
+			attributeList.put(ATTRIBUTES[a], copy.getAttribute(ATTRIBUTES[a]));
 		
 		equippedItems = copy.getEquippedItems();
 	}
@@ -52,8 +53,8 @@ public class Character implements ItemCarrier
 		
 		int[] atts = {s,d,w,i,e,l,h,h,m,m,ex,lv};
 		
-		for(int a=0;a<attributeList.length;a++)
-			attributeList[a] = new Attribute(ATTRIBUTES[a], atts[a]);
+		for(int a=0;a<ATTRIBUTES.length;a++)
+			attributeList.put(ATTRIBUTES[a], new Attribute(ATTRIBUTES[a], atts[a]));
 		
 		Arrays.fill(equippedItems, null);
 	}
@@ -65,9 +66,9 @@ public class Character implements ItemCarrier
 		
 		for(int a=0; a<atts.length; a++)
 		{
-			attributeList[a+h+m] = new Attribute(ATTRIBUTES[a+h+m], atts[a]);
-			if(a==6) {h=1; attributeList[a+h+m] = new Attribute(ATTRIBUTES[a+h+m], atts[a]);}
-			if(a==7) {m=1; attributeList[a+h+m] = new Attribute(ATTRIBUTES[a+h+m], atts[a]);}
+			attributeList.put(ATTRIBUTES[a+h+m], new Attribute(ATTRIBUTES[a+h+m], atts[a]));
+			if(a==6) {h=1; attributeList.put(ATTRIBUTES[a+h+m], new Attribute(ATTRIBUTES[a+h+m], atts[a]));}
+			else if(a==7) {m=1; attributeList.put(ATTRIBUTES[a+h+m], new Attribute(ATTRIBUTES[a+h+m], atts[a]));}
 		}
 		
 		for(Equipment e : equipment)
@@ -77,20 +78,23 @@ public class Character implements ItemCarrier
 	public String getName() {return name;}
 	public void setName(String n) {name=n;}
 	
+	public void changeAttribute(Attribute.AttributeEnum a, int value, boolean add) {
+		if(add) {attributeList.get(a).addValue(value);}
+		else {attributeList.get(a).subtractValue(value);}
+	}
+	public void changeAttribute(Attribute a, boolean add) {
+		if(add) {attributeList.get(a.getName()).addValue(a);}
+		else {attributeList.get(a.getName()).subtractValue(a);}
+	}
 	public Attribute getAttribute(Attribute.AttributeEnum a)
 	{
-		for(Attribute b : attributeList) if(b.getName().equals(a)) return b;
-		
-		return null;
+		return attributeList.get(a);
 	}
-	public void addAttribute(Attribute.AttributeEnum a, int v) {for(Attribute b : attributeList) if(b.getName().equals(a)) {b.addValue(v);return;}}
-	public void addAttribute(Attribute a) {for(Attribute b : attributeList) if(b.getName().equals(a.getName())) {b.addValue(a);return;}}
-	public void subtractAttribute(Attribute.AttributeEnum a, int v) {for(Attribute b : attributeList) if(b.getName().equals(a)) {b.subtractValue(v);return;}}
-	public void subtractAttribute(Attribute a) {for(Attribute b : attributeList) if(b.getName().equals(a.getName())) {b.subtractValue(a);return;}}
-	public Attribute[] getAllAttributes() {return attributeList;}
+	
+	public HashMap<Attribute.AttributeEnum, Attribute> getAllAttributes() {return attributeList;}
 	
 	public ArrayList<Item> getAllItems() {return inventory;}
-	public void useItem(Item i) 
+	public void useItem(Item i)
 	{
 		if(i.getClass() == Equipment.class)
 			equip((Equipment)i);
