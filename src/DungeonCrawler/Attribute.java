@@ -3,17 +3,15 @@ import java.util.ArrayList;
 
 public class Attribute 
 {
-	private int value; 
+	public int value; 
 	private AttributeEnum name;
 	
 	public Attribute(AttributeEnum n, int v) {name = n; value = v;}
 	
-	public int getValue() {return value;}
-	public void setValue(int v) {value = v;}
 	public void addValue(int v) {value += v;}
-	public void addValue(Attribute a) {value += a.getValue();}
+	public void addValue(Attribute a) {value += a.value;}
 	public void subtractValue(int v) {value -= v;}
-	public void subtractValue(Attribute a) {value -= a.getValue();}
+	public void subtractValue(Attribute a) {value -= a.value;}
 	
 	public static Attribute fromString(String s)
 	{

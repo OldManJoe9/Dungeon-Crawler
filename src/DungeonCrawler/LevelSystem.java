@@ -18,8 +18,8 @@ public class LevelSystem
 	{
 		if(!levelsSet) setLevels();
 		
-		int experience = p.getAttribute(AttributeEnum.EXPERIENCE).getValue(),
-				level = p.getAttribute(AttributeEnum.LEVEL).getValue();
+		int experience = p.getAttribute(AttributeEnum.EXPERIENCE).value,
+				level = p.getAttribute(AttributeEnum.LEVEL).value;
 		
 		checkLevel(p, experience, level);
 	}
