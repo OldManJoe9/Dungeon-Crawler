@@ -14,7 +14,7 @@ public class Combat
 	
 	public static void start(Character p, Character o, Console c)
 	{
-		if(o.getAttribute(Attribute.AttributeEnum.HEALTH).getValue() == 0) return;
+		if(o.getAttribute(Attribute.AttributeEnum.HEALTH).value == 0) return;
 		
 		player = p; opponent = o; console = c;
 		String line; Command command;
@@ -23,7 +23,7 @@ public class Combat
 		
 		isPlayerTurn = decideInitiative();
 		
-		while(player.getAttribute(Attribute.AttributeEnum.HEALTH).getValue() > 0 && opponent.getAttribute(Attribute.AttributeEnum.HEALTH).getValue() > 0)
+		while(player.getAttribute(Attribute.AttributeEnum.HEALTH).value > 0 && opponent.getAttribute(Attribute.AttributeEnum.HEALTH).value > 0)
 		{
 			if(isPlayerTurn)
 			{
@@ -44,11 +44,11 @@ public class Combat
 	}
 	private static void end()
 	{
-		if(player.getAttribute(Attribute.AttributeEnum.HEALTH).getValue() <= 0) 
+		if(player.getAttribute(Attribute.AttributeEnum.HEALTH).value <= 0) 
 			console.printf("You were defeated by the %s.%n%n", opponent.getName());
-		else if(opponent.getAttribute(Attribute.AttributeEnum.HEALTH).getValue() <= 0)
+		else if(opponent.getAttribute(Attribute.AttributeEnum.HEALTH).value <= 0)
 		{
-			player.addAttribute(opponent.getAttribute(Attribute.AttributeEnum.EXPERIENCE));
+			player.changeAttribute(opponent.getAttribute(Attribute.AttributeEnum.EXPERIENCE), true);
 			LevelSystem.checkLevel(player);
 			console.printf("You defeated the %s.%n%n", opponent.getName());
 		}
@@ -56,13 +56,13 @@ public class Combat
 	
 	private static boolean decideInitiative()
 	{
-		int playerLuck = player.getAttribute(Attribute.AttributeEnum.LUCK).getValue();
-		int playerDexterity = player.getAttribute(Attribute.AttributeEnum.DEXTERITY).getValue();
-		int playerLevel = player.getAttribute(Attribute.AttributeEnum.LEVEL).getValue();
+		int playerLuck = player.getAttribute(Attribute.AttributeEnum.LUCK).value;
+		int playerDexterity = player.getAttribute(Attribute.AttributeEnum.DEXTERITY).value;
+		int playerLevel = player.getAttribute(Attribute.AttributeEnum.LEVEL).value;
 		
-		int opponentLuck = opponent.getAttribute(Attribute.AttributeEnum.LUCK).getValue();
-		int opponentDexterity = opponent.getAttribute(Attribute.AttributeEnum.DEXTERITY).getValue();
-		int opponentLevel = opponent.getAttribute(Attribute.AttributeEnum.LEVEL).getValue();
+		int opponentLuck = opponent.getAttribute(Attribute.AttributeEnum.LUCK).value;
+		int opponentDexterity = opponent.getAttribute(Attribute.AttributeEnum.DEXTERITY).value;
+		int opponentLevel = opponent.getAttribute(Attribute.AttributeEnum.LEVEL).value;
 		
 		if (playerLevel > opponentLevel + opponentDexterity) return true;
 		else if(playerLevel + playerDexterity > opponentLevel) return true;
@@ -109,16 +109,16 @@ public class Combat
 	
 	private static void attack(Character attacker, Character target)
 	{
-		int attackerDexLuck = attacker.getAttribute(Attribute.AttributeEnum.DEXTERITY).getValue() + attacker.getAttribute(Attribute.AttributeEnum.LUCK).getValue();
-		int targetDexLuck = target.getAttribute(Attribute.AttributeEnum.DEXTERITY).getValue() + target.getAttribute(Attribute.AttributeEnum.LUCK).getValue();
+		int attackerDexLuck = attacker.getAttribute(Attribute.AttributeEnum.DEXTERITY).value + attacker.getAttribute(Attribute.AttributeEnum.LUCK).value;
+		int targetDexLuck = target.getAttribute(Attribute.AttributeEnum.DEXTERITY).value + target.getAttribute(Attribute.AttributeEnum.LUCK).value;
 		
-		int attack = attacker.getWeaponPower() + attacker.getAttribute(Attribute.AttributeEnum.STRENGTH).getValue()
-				- target.getArmorPower() - target.getAttribute(Attribute.AttributeEnum.ENDURANCE).getValue();
+		int attack = attacker.getWeaponPower() + attacker.getAttribute(Attribute.AttributeEnum.STRENGTH).value
+				- target.getArmorPower() - target.getAttribute(Attribute.AttributeEnum.ENDURANCE).value;
 		if(attack < 1) attack = 1;
 		
 		if(randomGenerator.nextInt(attackerDexLuck + 5) > randomGenerator.nextInt(targetDexLuck + 5))
 		{
-			target.subtractAttribute(Attribute.AttributeEnum.HEALTH, attack);
+			target.changeAttribute(Attribute.AttributeEnum.HEALTH, attack, false);
 			if(isPlayerTurn) console.printf("You hit the %s.%n", target.getName());
 			else console.printf("You were struck by %s.%n", attacker.getName());
 		}

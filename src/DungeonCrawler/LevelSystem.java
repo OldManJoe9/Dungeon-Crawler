@@ -18,8 +18,8 @@ public class LevelSystem
 	{
 		if(!levelsSet) setLevels();
 		
-		int experience = p.getAttribute(AttributeEnum.EXPERIENCE).getValue(),
-				level = p.getAttribute(AttributeEnum.LEVEL).getValue();
+		int experience = p.getAttribute(AttributeEnum.EXPERIENCE).value,
+				level = p.getAttribute(AttributeEnum.LEVEL).value;
 		
 		checkLevel(p, experience, level);
 	}
@@ -27,7 +27,7 @@ public class LevelSystem
 	private static void checkLevel(Character p, int e, int l)
 	{
 		if(l < MAX_LEVEL && e >= levels[l + 1])
-			p.addAttribute(AttributeEnum.LEVEL, 1);
+			p.changeAttribute(AttributeEnum.LEVEL, 1, true);
 		else return;
 		
 		checkLevel(p, e, l);

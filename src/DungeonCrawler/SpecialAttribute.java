@@ -25,8 +25,14 @@ public class SpecialAttribute
 	public String getName() {return name;}
 	public String getSpecial() {return special;}
 	
-	private void act(Character c) {for(int b=0; b < affectedAttributes.length; b++) c.addAttribute(affectedAttributes[b]);}
-	private void unact(Character c) {for(int b=0; b < affectedAttributes.length; b++) c.subtractAttribute(affectedAttributes[b]);}
+	private void act(Character c) {
+		for(int b=0; b < affectedAttributes.length; b++)
+			c.changeAttribute(affectedAttributes[b], true);
+	}
+	private void unact(Character c) {
+		for(int b=0; b < affectedAttributes.length; b++)
+			c.changeAttribute(affectedAttributes[b], false);
+	}
 	
 	/* 
 	 * items that are used instantly
