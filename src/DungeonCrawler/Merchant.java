@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.Consumer;
 
+import Generators.ItemGen;
+
 public class Merchant
 {
 	private static ItemGen itemGen;

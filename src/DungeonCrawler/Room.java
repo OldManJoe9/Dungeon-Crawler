@@ -95,7 +95,7 @@ public class Room implements ItemCarrier
 			else display += "*" + con.getName() + con.getIdentifier() + "%n";
 		
 		for(Door door : doors)
-			if(door.getLockLevel() != Key.LockLevel.NONE)
+			if(door.getLockLevel() != LockLevel.NONE)
 			{
 				String side = Direction.getOpposite(door.getMySide(this)).toString();
 				display += String.format("%C%s Door%n", side.charAt(0), side.substring(1).toLowerCase()); 

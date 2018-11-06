@@ -4,6 +4,13 @@ import java.io.Console;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
+import Generators.AbilityGen;
+import Generators.CharacterGen;
+import Generators.ContainerGen;
+import Generators.EquipmentGen;
+import Generators.ItemGen;
+import Generators.SpecialAttributeGen;
+
 public class DungeonCrawler 
 {
 	private static Console console;
@@ -109,7 +116,7 @@ public class DungeonCrawler
 			return;
 		}
 		
-		if(currentRoom.getDoor(dir).getLockLevel().getLevel() > Key.LockLevel.NONE.getLevel())
+		if(currentRoom.getDoor(dir).getLockLevel().getLevel() > LockLevel.NONE.getLevel())
 		{
 			console.printf("That door is locked.%n%n");
 			return;

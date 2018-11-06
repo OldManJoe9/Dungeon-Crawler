@@ -1,4 +1,5 @@
-package DungeonCrawler;
+package Generators;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -8,6 +9,10 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.Predicate;
+
+import DungeonCrawler.Container;
+import DungeonCrawler.Item;
+import DungeonCrawler.LockLevel;
 
 public class ContainerGen implements Generator<Container>
 {
@@ -43,7 +48,7 @@ public class ContainerGen implements Generator<Container>
 
 	public Container fromLine(String line) 
 	{
-		String name; Key.LockLevel lockLevel; ArrayList<Item> items = new ArrayList<Item>();
+		String name; LockLevel lockLevel; ArrayList<Item> items = new ArrayList<Item>();
 		
 		int index = 0; int stopIndex;
 		//String name
@@ -53,8 +58,8 @@ public class ContainerGen implements Generator<Container>
 		
 		//Key.LockLevel lockLevel
 		stopIndex = line.indexOf(",", index);
-		if(stopIndex != -1) lockLevel = Key.LockLevel.fromString(line.substring(index, stopIndex));
-		else {lockLevel = Key.LockLevel.fromString(line.substring(index)); return new Container(name, lockLevel);}
+		if(stopIndex != -1) lockLevel = LockLevel.fromString(line.substring(index, stopIndex));
+		else {lockLevel = LockLevel.fromString(line.substring(index)); return new Container(name, lockLevel);}
 		index = stopIndex+3;
 		
 		//Desk, NONE, {CommonPotion;}

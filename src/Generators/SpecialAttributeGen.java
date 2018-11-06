@@ -1,4 +1,4 @@
-package DungeonCrawler;
+package Generators;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +9,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.Predicate;
+
+import DungeonCrawler.SpecialAttribute;
+import DungeonCrawler.Attribute;
 
 public class SpecialAttributeGen implements Generator<SpecialAttribute> 
 {

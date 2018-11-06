@@ -1,4 +1,4 @@
-package DungeonCrawler;
+package Generators;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.Predicate;
 
-public class AbilityGen implements Generator<Ability> {
+import DungeonCrawler.Ability;
+import DungeonCrawler.SpecialAttribute;
+
+public class AbilityGen implements Generator<Ability>
+{
 	private static boolean generated = false;
 	private static ArrayList<Ability> allAbilities = new ArrayList<Ability>();
 	private static Random randomGenerator = new Random();

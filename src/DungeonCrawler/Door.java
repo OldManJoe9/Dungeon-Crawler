@@ -4,29 +4,29 @@ import java.util.Random;
 
 public class Door implements Unlockable
 {
-	private Key.LockLevel lockLevel;
+	private LockLevel lockLevel;
 	private Room room1, room2;
 	private Direction dir1, dir2;
 	private Random randomGenerator = new Random();
 	
 	public Door(Room r1, Direction d1)
 	{
-		this(Key.LockLevel.NONE, r1, d1, null, Direction.getOpposite(d1));
+		this(LockLevel.NONE, r1, d1, null, Direction.getOpposite(d1));
 		
 		int roll = randomGenerator.nextInt(100);
 		
-		if(roll < 5) lockLevel = Key.LockLevel.SILVER;
-		else if(roll < 15) lockLevel = Key.LockLevel.BRONZE;
+		if(roll < 5) lockLevel = LockLevel.SILVER;
+		else if(roll < 15) lockLevel = LockLevel.BRONZE;
 	}
-	public Door(Key.LockLevel l, Room r1, Direction d1, Room r2, Direction d2)
+	public Door(LockLevel l, Room r1, Direction d1, Room r2, Direction d2)
 	{
 		lockLevel = l;
 		room1 = r1; room2 = r2;
 		dir1 = d1; dir2 = d2;
 	}
 	
-	public void unlock(Key k) {if(k.getLockLevel().getLevel() >= lockLevel.getLevel()) lockLevel = Key.LockLevel.NONE;}
-	public Key.LockLevel getLockLevel() {return lockLevel;}
+	public void unlock(Key k) {if(k.getLockLevel().getLevel() >= lockLevel.getLevel()) lockLevel = LockLevel.NONE;}
+	public LockLevel getLockLevel() {return lockLevel;}
 	public String getName() {return "Door";}
 	
 	public void setRoom(Direction dir, Room r) throws IncorrectDirectionException

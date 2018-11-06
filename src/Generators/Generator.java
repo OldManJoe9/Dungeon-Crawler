@@ -1,4 +1,4 @@
-package DungeonCrawler;
+package Generators;
 import java.util.ArrayList;
 import java.util.function.Predicate;
 

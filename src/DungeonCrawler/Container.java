@@ -8,13 +8,13 @@ public class Container implements Unlockable, ItemCarrier
 {
 	private String name;
 	private ArrayList<Item> items = new ArrayList<Item>();
-	private Key.LockLevel lockLevel;
+	private LockLevel lockLevel;
 	private Random randomGenerator = new Random();
 	private boolean searched = false;
 	private int identifier=1;
 	
-	public Container(String n, Key.LockLevel l) {name=n; lockLevel=l; generate();}
-	public Container(String n, Key.LockLevel l, ArrayList<Item> i) {name=n;lockLevel=l; generate(i);}
+	public Container(String n, LockLevel l) {name=n; lockLevel=l; generate();}
+	public Container(String n, LockLevel l, ArrayList<Item> i) {name=n;lockLevel=l; generate(i);}
 	
 	private void generate()
 	{
@@ -35,8 +35,8 @@ public class Container implements Unlockable, ItemCarrier
 		else return Integer.toString(identifier);
 	}
 	public void setIdentifier(int i) {identifier=i;}
-	public Key.LockLevel getLockLevel() {return lockLevel;}
-	public void unlock(Key k) {if(k.getLockLevel().getLevel() >= lockLevel.getLevel()) lockLevel = Key.LockLevel.NONE;}
+	public LockLevel getLockLevel() {return lockLevel;}
+	public void unlock(Key k) {if(k.getLockLevel().getLevel() >= lockLevel.getLevel()) lockLevel = LockLevel.NONE;}
 	public ArrayList<Item> getAllItems() {return items;}
 	public void removeItem(Item i) 
 	{
@@ -58,6 +58,6 @@ public class Container implements Unlockable, ItemCarrier
 			return itemList.get(randomGenerator.nextInt(itemList.size()));
 	}
 	
-	public ArrayList<Item> search() {if(lockLevel == Key.LockLevel.NONE) {searched = true; return items;} return null;}
+	public ArrayList<Item> search() {if(lockLevel == LockLevel.NONE) {searched = true; return items;} return null;}
 	public boolean isSearched() {return searched;}
 }

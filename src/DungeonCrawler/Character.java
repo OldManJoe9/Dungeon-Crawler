@@ -116,7 +116,7 @@ public class Character implements ItemCarrier
 		else
 			return itemList.get(randomGenerator.nextInt(itemList.size()));
 	}
-	public Key getKeyFromInventory(Key.LockLevel lockLevel)
+	public Key getKeyFromInventory(LockLevel lockLevel)
 	{
 		Key key = null;
 		
@@ -126,7 +126,7 @@ public class Character implements ItemCarrier
 			
 			if(key == null)
 			{
-				lockLevel = Key.LockLevel.getNextLevel(lockLevel);
+				lockLevel = LockLevel.getNextLevel(lockLevel);
 				if(lockLevel == null) break;
 			}
 		} while(key == null);

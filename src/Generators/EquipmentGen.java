@@ -1,8 +1,14 @@
-package DungeonCrawler;
+package Generators;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.Predicate;
+
+import DungeonCrawler.Attribute;
+import DungeonCrawler.ClassifiedArrayList;
+import DungeonCrawler.Equipment;
+
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

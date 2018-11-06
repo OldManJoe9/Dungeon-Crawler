@@ -1,8 +1,16 @@
-package DungeonCrawler;
+package Generators;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.Predicate;
+
+import DungeonCrawler.ClassifiedArrayList;
+import DungeonCrawler.Equipment;
+import DungeonCrawler.Key;
+import DungeonCrawler.Item;
+import DungeonCrawler.LockLevel;
+import DungeonCrawler.SpecialAttribute;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -60,10 +68,10 @@ public class ItemGen implements Generator<Item>
 		{
 			switch(nal.getClassification()){
 			case COMMON: break;
-			case UNCOMMON: nal.add(new Key(Key.LockLevel.BRONZE)); break;
-			case RARE: nal.add(new Key(Key.LockLevel.SILVER)); break;
+			case UNCOMMON: nal.add(new Key(LockLevel.BRONZE)); break;
+			case RARE: nal.add(new Key(LockLevel.SILVER)); break;
 			case VERYRARE: break;
-			case ULTRARARE: nal.add(new Key(Key.LockLevel.GOLD)); break;
+			case ULTRARARE: nal.add(new Key(LockLevel.GOLD)); break;
 			}
 		}
 	}

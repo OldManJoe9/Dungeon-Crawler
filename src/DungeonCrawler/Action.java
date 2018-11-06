@@ -5,7 +5,7 @@ public class Action
 {
 	public static String unlock(Unlockable u, Key k, ItemCarrier ic)
 	{
-		if(u.getLockLevel() != Key.LockLevel.NONE) 
+		if(u.getLockLevel() != LockLevel.NONE) 
 		{
 			if(k == null) return "Could not unlock: " + u.getName() + ". You do not have the right key.%n";
 			else
