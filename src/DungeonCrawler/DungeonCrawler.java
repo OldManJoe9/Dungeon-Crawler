@@ -89,9 +89,7 @@ public class DungeonCrawler
 		case DROP: case DISCARD: drop(param); break;
 		case HELP: help(param); break;
 		case QUIT: case EXIT: quit(); break;
-		case DEBUG:
-			console.printf("Command not found%n%n");
-			//debug(); break;
+		case DEBUG: debug(); break;
 		}
 	}
 	
@@ -572,14 +570,16 @@ public class DungeonCrawler
 					+ "Ends the game, no paramaters are needed. I suggest saving before you quit, just saying...%n%n");
 			break;
 		case DEBUG:
-			console.printf("Command not found%n");
+			console.printf("Syntax: debug%n"
+					+ "Runs the debug command%n%n");
 			break;
 		}
 	}
 	
-	private static void quit() {if(console.readLine("Are you sure you wish to quit? [y/n] ").equalsIgnoreCase("Y")) System.exit(0);}
+	private static void quit() {
+		if(console.readLine("Are you sure you wish to quit? [y/n] ").equalsIgnoreCase("Y")) System.exit(0);
+	}
 	
-	@SuppressWarnings("unused")
 	private static void debug()
 	{
 		console.printf("%s%n", currentRoom.getDoor(Direction.NORTH));
