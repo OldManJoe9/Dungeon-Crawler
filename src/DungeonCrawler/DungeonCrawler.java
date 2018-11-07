@@ -83,6 +83,7 @@ public class DungeonCrawler
 		case EQUIP: equip(param); break;
 		case UNEQUIP: unequip(param); break;
 		case USE: use(param); break;
+		case OPEN: open(param); break;
 		case UNLOCK: unlock(param); break;
 		case SEARCH: search(param); break;
 		case PICKUP: case TAKE: pickUp(param); break;
@@ -268,23 +269,49 @@ public class DungeonCrawler
 			Ability toUse2 = playerCharacter.getAbility(s -> s.getName().equalsIgnoreCase(i));
 			
 			if(toUse2 == null) console.printf("Could not use: %s%n%n", i);
-			else 
-			{
+			else {
 				toUse2.use(playerCharacter);
 				console.printf("Used: %s on %s%n%n", i, playerCharacter);
 			}
 		}
-		else 
-		{
+		else {
 			playerCharacter.useItem(toUse);
 			console.printf("%s%n%n", toUse.onUse());
 		}
 	}
 	
-	private static void unlock(String c)
-	{
-		if(c.isEmpty()) 
-		{
+	private static void open(String c) {
+		if (c.isEmpty()) {
+			secondTry(try2 -> unlock(try2), "%nWhat do you want to open? ");
+			return;
+		}
+		
+		if (c.contains("all")) unlock(c);
+		
+		ArrayList<Unlockable> unlockables = currentRoom.getUnlockables();
+		
+		for(Unlockable u : unlockables) {
+			if(u.getClass() == Container.class) {
+				String con = u.getName() + ((Container)u).getIdentifier();
+				if(con.equalsIgnoreCase(c)) {
+					unlock(c); search(c); break;
+				}
+			}
+			else if(u.getClass() == Door.class) {
+				String con = Direction.getOpposite(((Door)u).getMySide(currentRoom)) + " Door";
+				if(con.equalsIgnoreCase(c)) {
+					unlock(c); break;
+				}
+			}
+			else
+				if(u.getName().equalsIgnoreCase(c)) {
+					unlock(c); break;
+				}
+		}
+	}
+	
+	private static void unlock(String c) {
+		if(c.isEmpty()) {
 			secondTry(try2 -> unlock(try2), "%nWhat do you want to unlock? ");
 			return;
 		}
@@ -294,10 +321,8 @@ public class DungeonCrawler
 		if(c.equalsIgnoreCase("all")) 
 			if(unlockables.isEmpty()) console.printf("There is nothing to unlock...%n%n");
 			else console.printf(Action.unlockAll(unlockables, playerCharacter.getAllKeysFromInventory(), playerCharacter));
-		else
-		{
-			if(c.contains("all ")) 
-			{
+		else {
+			if(c.contains("all ")) {
 				String c2 = c.substring(c.indexOf(" ") + 1);
 				ArrayList<Unlockable> unlockables2 = new ArrayList<Unlockable>();
 				
@@ -347,7 +372,7 @@ public class DungeonCrawler
 		ArrayList<Item> items = null;
 		boolean found = false;
 		
-		if(param.isEmpty()) currentRoom.search(console);
+		if(param.isEmpty()) console.printf(currentRoom.search());
 		else
 		{
 			for(Unlockable con : currentRoom.getUnlockables())
@@ -537,6 +562,12 @@ public class DungeonCrawler
 					+ "ability_name: the name of the ability you wish to use%n"
 					+ "Uses an item or ability that is in your inventory or skill set. Equipment will be equipped or unequipped if it is on your character.%n%n");
 			break;
+		case OPEN:
+			console.printf("Syntax: use \"object_name\"%n"
+					+ "if using the word \"all\" will unlock all objects or all specified objects%n"
+					+ "object_name: the name of the container, door, or other unlockable and/or searchable object that you wish to unlock and/or search%n"
+					+ "Unlockes an unlockable object and then searches it if it is searchable.%n%n");
+			break;
 		case UNLOCK:
 			console.printf("Syntax: unlock [all] \"object_name\"%n"
 					+ "if using the word \"all\" will unlock all objects or all specified objects%n"
@@ -637,7 +668,7 @@ public class DungeonCrawler
 	private enum Command
 	{
 		MOVE("MOVE"), SHOW("SHOW"), DESCRIBE("DESCRIBE"), WHATIS("WHATIS"), EQUIP("EQUIP"), UNEQUIP("UNEQUIP"),
-		USE("USE"), UNLOCK("UNLOCK"), SEARCH("SEARCH"), PICKUP("PICKUP"), TAKE("TAKE"), DROP("DROP"), DISCARD("DISCARD"),
+		USE("USE"), OPEN("OPEN"), UNLOCK("UNLOCK"), SEARCH("SEARCH"), PICKUP("PICKUP"), TAKE("TAKE"), DROP("DROP"), DISCARD("DISCARD"),
 		HELP("HELP"), QUIT("QUIT"), EXIT("EXIT"), DEBUG("DEBUG");
 		
 		private char[] commandString;

@@ -1,5 +1,5 @@
 package DungeonCrawler;
-import java.io.Console;
+
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.function.Predicate;
@@ -85,7 +85,7 @@ public class Room implements ItemCarrier
 		return null;
 	}
 
-	public void search(Console c) 
+	public String search() 
 	{
 		String display = "";
 		for(Item i : items) display += i.getName() + "%n";
@@ -95,14 +95,13 @@ public class Room implements ItemCarrier
 			else display += "*" + con.getName() + con.getIdentifier() + "%n";
 		
 		for(Door door : doors)
-			if(door.getLockLevel() != LockLevel.NONE)
-			{
+			if(door.getLockLevel() != LockLevel.NONE) {
 				String side = Direction.getOpposite(door.getMySide(this)).toString();
 				display += String.format("%C%s Door%n", side.charAt(0), side.substring(1).toLowerCase()); 
 			}
 		
-		if(display.isEmpty()) c.printf("The room is empty...%n%n");
-		else c.printf(display + "%n");
+		if(display.isEmpty()) return "The room is empty...%n%n";
+		else return display + "%n";
 	}
 	public ArrayList<Item> getAllItems() {return items;}
 	public void removeItem(Item i)
